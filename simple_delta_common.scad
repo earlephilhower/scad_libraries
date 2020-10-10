@@ -57,7 +57,7 @@ module mount_body(
 	height,
 	nut_pocket,
 	w_mount = w_mount,
-	echo = true) {
+	_echo = true) {
 
 	// various radii and chord lengths
 	a_arc_guides = asin(cc_guides / 2 / r_printer); // angle of arc between guide rods at r_printer
@@ -72,7 +72,7 @@ module mount_body(
 	l_brd = floor(l_chord_pivots / 10) * 10 - l_mount / 2; // length of the board that will be mounted between the apexs to yield r_printer
 	l_pad_mount = (l_chord_pivots - l_brd) / 2;
 	//l_boss_mount = l_mount - l_pad_mount;
-	if (echo) {
+	if (_echo) {
 		//echo(str("Distance between nearest neighbor guide rods = ", l_chord_guides, "mm"));
 		echo(str("Radius to centerline of tower = ", r_tower_center, "mm"));
 		//echo(str("Radius to mount tab pivot = ", r_mount_pivot, "mm"));
@@ -147,14 +147,14 @@ module slot(
 }
 
 // so that the relief of the mount holes for vertical boards are consistent:
-module vertical_board_relief(echo = true) {
+module vertical_board_relief(_echo = true) {
 	// holes to mount vertical boards
 	for (i = [-1, 1])
 		translate([i * cc_v_board_mounts / 2, 0, 0])
 			rotate([90, 0, 0])
 				cylinder(r = d_M3_screw / 2, h = w_clamp + 1, center = true);
 
-	if (echo) echo(str("c-c vertical board mounts = ", cc_v_board_mounts));
+	if (_echo) echo(str("c-c vertical board mounts = ", cc_v_board_mounts));
 }
 
 // the mount is the shape that linking boards attach to
@@ -164,7 +164,7 @@ module mount(
 	cc_mount,
 	base_mount = true,
 	nut_pocket,
-	echo) {
+	_echo) {
 	union() {
 		mount_body(
 			cc_mount = cc_mount,
@@ -175,7 +175,7 @@ module mount(
 			l_slot = l_slot,
 			height = height,
 			nut_pocket = nut_pocket,
-			echo = echo);
+			_echo = _echo);
 
 			if (base_mount)
 			// boss for mounting base plate
@@ -203,7 +203,7 @@ module apex(
 	cc_mount,
 	base_mount = true,
 	nut_pocket = 0,
-	echo = true
+	_echo = true
 ) {
 	hull() {
 		for (i = [-1, 1])
@@ -221,7 +221,7 @@ module apex(
 						cc_mount = cc_mount,
 						base_mount = base_mount,
 						nut_pocket = nut_pocket,
-						echo = echo);
+						_echo = _echo);
 }
 
 // rod_clamp_relief uses the whole motor/idler end as a clamp, requiring threaded rods to apply clamping force
